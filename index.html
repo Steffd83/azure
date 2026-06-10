@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Bienvenue chez Orange</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Segoe UI, Arial, sans-serif;
+            background: linear-gradient(135deg, #ff7900, #ffb366);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            text-align: center;
+            background: white;
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            width: 600px;
+        }
+
+        h1 {
+            color: #ff7900;
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            width: 180px;
+            height: 180px;
+            margin: 20px auto;
+            background: #ff7900;
+            border-radius: 25px;
+            position: relative;
+        }
+
+        .eyes {
+            display: flex;
+            justify-content: space-around;
+            padding-top: 50px;
+        }
+
+        .eye {
+            width: 25px;
+            height: 25px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .smile {
+            width: 80px;
+            height: 40px;
+            border-bottom: 8px solid white;
+            border-radius: 0 0 80px 80px;
+            margin: 25px auto;
+        }
+
+        button {
+            background: #ff7900;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #e66d00;
+        }
+
+        #userInfo {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="logo">
+        <div class="eyes">
+            <div class="eye"></div>
+            <div class="eye"></div>
+        </div>
+        <div class="smile"></div>
+    </div>
+
+    <h1>Bienvenue chez Orange</h1>
+
+    <button onclick="login()">Connexion Entra ID</button>
+
+    <div id="userInfo"></div>
+
+</div>
+
+<script>
+
+async function login() {
+    window.location.href = "/.auth/login/aad";
+}
+
+async function getUser() {
+    try {
+        const response = await fetch('/.auth/me');
+
+        if (!response.ok) {
+            return;
+        }
+
+        const payload = await response.json();
+
+        if (payload.clientPrincipal) {
+            document.getElementById('userInfo').innerHTML =
+                `<p>Connecté : <b>${payload.clientPrincipal.userDetails}</b></p>`;
+        }
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+getUser();
+
+</script>
+
+</body>
+</html>
